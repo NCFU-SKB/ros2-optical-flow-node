@@ -42,13 +42,9 @@ rosdep install --from-paths src --ignore-src -r -y
    ```
 2. Запустите узел оптического потока:
    ```bash
-   ros2 run optical_flow_node <имя_узла>
+   ros2 run optical_flow_node optical_flow_node
    ```
-   Или используйте launch-файл (если имеется):
-   ```bash
-   ros2 launch optical_flow_node <имя_файла>.launch.py
-   ```
-
+   
 ## Используемые топики
 
 ### Подписка на топики
