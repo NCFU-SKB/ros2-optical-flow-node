@@ -211,8 +211,8 @@ private:
             auto flow_camera = std::make_unique<geometry_msgs::msg::Vector3Stamped>();
             flow_camera->header.frame_id = msg->header.frame_id;
             flow_camera->header.stamp = msg->header.stamp;
-            flow_camera->vector.x = -flow_y;
-            flow_camera->vector.y = flow_x;
+            flow_camera->vector.x = flow_x;
+            flow_camera->vector.y = -flow_y;
 
             try {
                 auto flow_fcu = *flow_camera;///tf_buffer_->transform(*flow_camera, fcu_frame_id_);
