@@ -98,7 +98,7 @@ private:
         );
         
         img_pub_ = it.advertise("debug", 1);
-        flow_pub_ = create_publisher<mavros_msgs::msg::OpticalFlowRad>("/uav1/mavros/px4flow/raw/send", 1);
+        flow_pub_ = create_publisher<mavros_msgs::msg::OpticalFlowRad>("/mavros/px4flow/raw/send", 1);
         velo_pub_ = create_publisher<geometry_msgs::msg::TwistStamped>("angular_velocity", 1);
         shift_pub_ = create_publisher<geometry_msgs::msg::Vector3Stamped>("/shift", 1);
 
