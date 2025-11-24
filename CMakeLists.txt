@@ -28,11 +28,6 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
-# Include PX4-OpticalFlow headers
-include_directories(src)
-include_directories(${CMAKE_SOURCE_DIR}/../PX4-OpticalFlow/include)
-
-include_directories(${CMAKE_SOURCE_DIR}/../PX4-OpticalFlow/external/klt_feature_tracker/include)
 
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 
@@ -49,10 +44,6 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 ament_target_dependencies(optical_flow_node tf2 tf2_ros tf2_geometry_msgs image_transport rclcpp std_msgs mavros_msgs geometry_msgs sensor_msgs nav_msgs cv_bridge OpenCV)
 
-# Link PX4-OpticalFlow library
-target_link_libraries(optical_flow_node
-  ${CMAKE_SOURCE_DIR}/../PX4-OpticalFlow/build/OpticalFlow/libOpticalFlow.so
-)
 
 
 install(TARGETS

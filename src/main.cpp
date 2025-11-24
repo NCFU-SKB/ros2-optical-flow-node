@@ -14,7 +14,7 @@
 #include <memory>
 #include <rclcpp/rclcpp.hpp>
 #include <image_transport/image_transport.hpp>
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 #include <opencv2/opencv.hpp>
 #include <tf2/convert.h>
 #include <tf2/utils.h>
