@@ -89,7 +89,7 @@ private:
 
         // Subscribers and Publishers
         img_sub_ = it.subscribeCamera(
-            "/image_raw",
+            "/camera1/image_raw",
             1,
             [this](const sensor_msgs::msg::Image::ConstSharedPtr& img,
                    const sensor_msgs::msg::CameraInfo::ConstSharedPtr& info) {
@@ -107,7 +107,7 @@ private:
         flow_.integrated_ygyro = NAN;
         flow_.integrated_zgyro = NAN;
         flow_.time_delta_distance_us = 0;
-        flow_.distance = -1; range->range;
+        flow_.distance = 0; //range->range;
         flow_.temperature = 0;
 
         RCLCPP_INFO(get_logger(), "Optical Flow initialized");
