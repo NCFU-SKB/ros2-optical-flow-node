@@ -251,7 +251,12 @@ private:
                     }
                 }
 
-
+                // Publish flow in fcu frame
+                flow_.header.stamp = msg->header.stamp;
+                flow_.integration_time_us = integration_time_us;
+                flow_.integrated_x = flow_camera->vector.x;
+                flow_.integrated_y = flow_camera->vector.y;
+                flow_.quality = (uint8_t)(response * 255);
                 if (isLidar){
                     if (range->range > 1.3){
                         flow_.distance = 0;        
