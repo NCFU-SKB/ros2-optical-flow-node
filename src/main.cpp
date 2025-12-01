@@ -48,7 +48,7 @@ private:
     
     rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr rangeSub;
     void rangeCallback(const sensor_msgs::msg::Range::SharedPtr msg){
-        prev_dist_stamp = dist_stamp.clone():
+        prev_dist_stamp = dist_stamp;
         range = msg;
         dist_stamp = range->header.stamp;
     }
