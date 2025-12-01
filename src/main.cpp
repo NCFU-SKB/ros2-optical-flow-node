@@ -48,10 +48,12 @@ private:
     
     rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr rangeSub;
     void rangeCallback(const sensor_msgs::msg::Range::SharedPtr msg){
-      range = msg;
+        oldrange = range;
+        range = msg;
     }
 
     sensor_msgs::msg::Range::SharedPtr range = std::make_shared<sensor_msgs::msg::Range>();
+    sensor_msgs::msg::Range::SharedPtr oldrange = std::make_shared<sensor_msgs::msg::Range>();
     rclcpp::Time prev_stamp_;
     std::string fcu_frame_id_, local_frame_id_;
     image_transport::CameraSubscriber img_sub_;
@@ -109,9 +111,16 @@ private:
         flow_.integrated_xgyro = NAN;
         flow_.integrated_ygyro = NAN;
         flow_.integrated_zgyro = NAN;
-        flow_.time_delta_distance_us = 0;
         if (isLidar){
-            flow_.distance = range->range;
+            if (range->range > 1.3){
+                flow_.distance = 0;        
+                flow_.time_delta_distance_us = 0;
+            }else{
+                flow_.distance = range->range;
+                rclcpp::Duration dist_integration_time = range->stamp - oldrange->stamp;
+                uint32_t dist_integration_time_us = dist_integration_time.seconds() * 1.0e6;
+                flow_.time_delta_distance_us = dist_integration_time_us
+            }
         }else{ 
             flow_.distance = 0; //range->range;
         }
@@ -242,17 +251,21 @@ private:
                     }
                 }
 
-                // Publish flow in fcu frame
-                flow_.header.stamp = msg->header.stamp;
-                flow_.integration_time_us = integration_time_us;
-                flow_.integrated_x = flow_camera->vector.x;
-                flow_.integrated_y = flow_camera->vector.y;
-                flow_.quality = (uint8_t)(response * 255);
+
                 if (isLidar){
-                    flow_.distance = range->range;
+                    if (range->range > 1.3){
+                        flow_.distance = 0;        
+                        flow_.time_delta_distance_us = 0;
+                    }else{
+                        flow_.distance = range->range;
+                        rclcpp::Duration dist_integration_time = range->stamp - oldrange->stamp;
+                        uint32_t dist_integration_time_us = dist_integration_time.seconds() * 1.0e6;
+                        flow_.time_delta_distance_us = dist_integration_time_us;
+                    }
                 }else{ 
                     flow_.distance = 0; //range->range;
                 }
+
                 flow_pub_->publish(flow_);
 
                 // Publish debug image
