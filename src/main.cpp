@@ -119,7 +119,7 @@ private:
                 flow_.time_delta_distance_us = 0;
             }else{
                 flow_.distance = range->range;
-                rclcpp::Duration dist_integration_time = dist_stamp.nanoseconds - prev_dist_stamp.nanoseconds;
+                rclcpp::Duration dist_integration_time = dist_stamp.nanoseconds() - prev_dist_stamp.nanoseconds();
                 uint32_t dist_integration_time_us = dist_integration_time.seconds() * 1.0e6;
                 flow_.time_delta_distance_us = dist_integration_time_us;
             }
@@ -265,7 +265,7 @@ private:
                         flow_.time_delta_distance_us = 0;
                     }else{
                         flow_.distance = range->range;
-                        rclcpp::Duration dist_integration_time = dist_stamp.nanoseconds - prev_dist_stamp.nanoseconds;
+                        rclcpp::Duration dist_integration_time = dist_stamp.nanoseconds() - prev_dist_stamp.nanoseconds();
                         uint32_t dist_integration_time_us = dist_integration_time.seconds() * 1.0e6;
                         flow_.time_delta_distance_us = dist_integration_time_us;
                     }
