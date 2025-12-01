@@ -48,12 +48,14 @@ private:
     
     rclcpp::Subscription<sensor_msgs::msg::Range>::SharedPtr rangeSub;
     void rangeCallback(const sensor_msgs::msg::Range::SharedPtr msg){
-        oldrange = range;
+        prev_dist_stamp = dist_stamp.clone():
         range = msg;
+        dist_stamp = range->header.stamp;
     }
 
     sensor_msgs::msg::Range::SharedPtr range = std::make_shared<sensor_msgs::msg::Range>();
-    sensor_msgs::msg::Range::SharedPtr oldrange = std::make_shared<sensor_msgs::msg::Range>();
+    rclcpp::Time prev_dist_stamp = rclcpp::Time();
+    rclcpp::Time dist_stamp = rclcpp::Time();
     rclcpp::Time prev_stamp_;
     std::string fcu_frame_id_, local_frame_id_;
     image_transport::CameraSubscriber img_sub_;
