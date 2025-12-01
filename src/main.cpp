@@ -121,7 +121,7 @@ private:
                 flow_.distance = range->range;
                 rclcpp::Duration dist_integration_time = dist_stamp - prev_dist_stamp;
                 uint32_t dist_integration_time_us = dist_integration_time.seconds() * 1.0e6;
-                flow_.time_delta_distance_us = dist_integration_time_us
+                flow_.time_delta_distance_us = dist_integration_time_us;
             }
         }else{ 
             flow_.distance = 0; //range->range;
