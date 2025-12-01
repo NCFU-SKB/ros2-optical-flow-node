@@ -67,11 +67,13 @@ private:
     std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
     bool calc_flow_gyro_;
 
+    
+    bool isLidar = false;
+
     void initialize()
     {
         auto nh = std::shared_ptr<OpticalFlow>(this, [](auto *) {});
         image_transport::ImageTransport it(nh);
-        bool isLidar = false;
         
         rangeSub = this->create_subscription<sensor_msgs::msg::Range>(
         "/rangeLidar", 10,
