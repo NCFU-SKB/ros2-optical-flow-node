@@ -71,6 +71,7 @@ private:
     {
         auto nh = std::shared_ptr<OpticalFlow>(this, [](auto *) {});
         image_transport::ImageTransport it(nh);
+        bool isLidar = false;
         
         rangeSub = this->create_subscription<sensor_msgs::msg::Range>(
         "/rangeLidar", 10,
@@ -107,7 +108,11 @@ private:
         flow_.integrated_ygyro = NAN;
         flow_.integrated_zgyro = NAN;
         flow_.time_delta_distance_us = 0;
-        flow_.distance = 0; //range->range;
+        if (isLidar){
+            flow_.distance = range->range;
+        }else{ 
+            flow_.distance = 0; //range->range;
+        }
         flow_.temperature = 0;
 
         RCLCPP_INFO(get_logger(), "Optical Flow initialized");
@@ -241,6 +246,11 @@ private:
                 flow_.integrated_x = flow_camera->vector.x;
                 flow_.integrated_y = flow_camera->vector.y;
                 flow_.quality = (uint8_t)(response * 255);
+                if (isLidar){
+                    flow_.distance = range->range;
+                }else{ 
+                    flow_.distance = 0; //range->range;
+                }
                 flow_pub_->publish(flow_);
 
                 // Publish debug image
